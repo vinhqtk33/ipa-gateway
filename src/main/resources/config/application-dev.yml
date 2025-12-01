@@ -57,13 +57,13 @@ spring:
   liquibase:
     # Remove 'faker' if you do not want the sample data to be loaded automatically
     contexts: dev, faker
-    url: jdbc:postgresql://localhost:5432/ipaGateway
+    url: jdbc:postgresql://localhost:5432/ipaSystemDB
   messages:
     cache-duration: PT1S # 1 second, see the ISO 8601 standard
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/ipaGateway
-    username: ipaGateway
-    password:
+    url: r2dbc:postgresql://localhost:5432/ipaSystemDB
+    username: ipaSystem
+    password: ipasystem@123
   thymeleaf:
     cache: false
 

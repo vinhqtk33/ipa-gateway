@@ -21,6 +21,8 @@ services:
     ports:
       - 127.0.0.1:9080:9080
       - 127.0.0.1:9443:9443
+    networks:
+      - shared_network
     healthcheck:
       test: 'bash /opt/keycloak/health-check.sh'
       interval: 5s

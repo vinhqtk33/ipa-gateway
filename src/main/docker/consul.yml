@@ -2,13 +2,15 @@
 name: ipagateway
 services:
   consul:
-    image: docker.io/bitnami/consul:1.21.0
+    image: hashicorp/consul
     # If you want to expose these ports outside your dev PC,
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:8300:8300
       - 127.0.0.1:8500:8500
       - 127.0.0.1:8600:8600
+    networks:
+      - shared_network
     command: consul agent -dev -ui -client 0.0.0.0 -log-level=INFO
     labels:
       org.springframework.boot.ignore: true

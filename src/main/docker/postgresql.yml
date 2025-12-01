@@ -6,8 +6,10 @@ services:
     # volumes:
     #   - ~/volumes/jhipster/ipaGateway/postgresql/:/var/lib/postgresql/data/
     environment:
-      - POSTGRES_USER=ipaGateway
+      - POSTGRES_USER=ipaSystem
       - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=ipaSystemDB
+      - POSTGRES_PASSWORD=ipasystem@123
     healthcheck:
       test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER}']
       interval: 5s
@@ -17,3 +19,5 @@ services:
     # remove the "127.0.0.1:" prefix
     ports:
       - 127.0.0.1:5432:5432
+    networks:
+      - shared_network
