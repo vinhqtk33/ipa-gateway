@@ -93,6 +93,15 @@ services:
     networks:
       - shared_network
 
+  redis:
+    image: redis:8.0.0
+    # If you want to expose these ports outside your dev PC,
+    # remove the "127.0.0.1:" prefix
+    ports:
+      - 127.0.0.1:6379:6379
+    networks:
+      - shared_network
+
 networks:
   shared_network:
     external: true
