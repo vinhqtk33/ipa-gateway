@@ -1,7 +1,8 @@
 {
   "annotations": {
-    "changelogDate": "20251201022840"
+    "changelogDate": "20251202150851"
   },
+  "clientRootFolder": "ipaCatalogBookService",
   "databaseType": "sql",
   "dto": "mapstruct",
   "fields": [
@@ -15,10 +16,13 @@
     },
     {
       "fieldName": "price",
-      "fieldType": "Long"
+      "fieldType": "Long",
+      "fieldValidateRules": []
     }
   ],
-  "jpaMetamodelFiltering": false,
+  "jpaMetamodelFiltering": true,
+  "microserviceName": "ipaCatalogBookService",
+  "microservicePath": "D:\\src\\ipa-system\\ipa-catalog-book-service",
   "name": "Book",
   "pagination": "pagination",
   "readOnly": false,
