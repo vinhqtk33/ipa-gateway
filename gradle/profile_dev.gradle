@@ -80,5 +80,5 @@ task integrationTest(type: Test) {
 }
 integrationTest.dependsOn test
 
-processResources.dependsOn webapp
+//processResources.dependsOn webapp
 bootJar.dependsOn processResources
