@@ -46,11 +46,11 @@ spring:
   # Replace by 'prod, faker' to add the faker context and have sample data loaded in production
   liquibase:
     contexts: prod
-    url: jdbc:postgresql://localhost:5432/ipaGateway
+    url: jdbc:postgresql://localhost:5432/ipaSystemDB
   r2dbc:
-    url: r2dbc:postgresql://localhost:5432/ipaGateway
-    username: ipaGateway
-    password:
+    url: r2dbc:postgresql://localhost:5432/ipaSystemDB
+    username: ipaSystem
+    password: ipasystem@123
   thymeleaf:
     cache: true
 

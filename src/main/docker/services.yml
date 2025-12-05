@@ -1,97 +1,29 @@
-# This configuration is intended for development purpose, it's **your** responsibility to harden it for production
-name: ipa-infrastructure
+name: ipa-system
 services:
   postgresql:
-    image: postgres:17.4
-    # volumes:
-    #   - ~/volumes/jhipster/ipaGateway/postgresql/:/var/lib/postgresql/data/
-    environment:
-      - POSTGRES_USER=ipaSystem
-      - POSTGRES_HOST_AUTH_METHOD=trust
-      - POSTGRES_DB=ipaSystemDB
-      - POSTGRES_PASSWORD=ipasystem@123
-    networks:
-      - shared_network
-    healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U $${POSTGRES_USER}']
-      interval: 5s
-      timeout: 5s
-      retries: 10
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
-    ports:
-      - 127.0.0.1:5432:5432
-
-  keycloak:
-    image: quay.io/keycloak/keycloak:26.2.3
-    command: 'start-dev --import-realm'
-    volumes:
-      - ./realm-config:/opt/keycloak/data/import
-      - ./realm-config/keycloak-health-check.sh:/opt/keycloak/health-check.sh
-    environment:
-      - KC_DB=dev-file
-      - KEYCLOAK_ADMIN=admin
-      - KEYCLOAK_ADMIN_PASSWORD=admin
-      - KC_FEATURES=scripts
-      - KC_HTTP_PORT=9080
-      - KC_HTTPS_PORT=9443
-      - KC_HEALTH_ENABLED=true
-      - KC_HTTP_MANAGEMENT_PORT=9990
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
-    ports:
-      - 127.0.0.1:9080:9080
-      - 127.0.0.1:9443:9443
-    networks:
-      - shared_network
-    healthcheck:
-      test: 'bash /opt/keycloak/health-check.sh'
-      interval: 5s
-      timeout: 5s
-      # Increased retries due to slow Keycloak startup in GitHub Actions using MacOS
-      retries: 50
-      start_period: 10s
-    labels:
-      org.springframework.boot.ignore: true
-
-  consul:
-    image: hashicorp/consul
-    # If you want to expose these ports outside your dev PC,
-    # remove the "127.0.0.1:" prefix
-    ports:
-      - 127.0.0.1:8300:8300
-      - 127.0.0.1:8500:8500
-      - 127.0.0.1:8600:8600
-    networks:
-      - shared_network
-    command: consul agent -dev -ui -client 0.0.0.0 -log-level=INFO
-    labels:
-      org.springframework.boot.ignore: true
-
-  consul-config-loader:
-    image: jhipster/consul-config-loader:v0.4.1
-    volumes:
-      - ./central-server-config:/config
-    environment:
-      - INIT_SLEEP_SECONDS=5
-      - CONSUL_URL=consul
-      - CONSUL_PORT=8500
-      # Uncomment to load configuration into Consul from a Git repository
-      # as configured in central-server-config/git2consul.json
-      # Also set SPRING_CLOUD_CONSUL_CONFIG_FORMAT=files on your apps
-      # - CONFIG_MODE=git
-    labels:
-      org.springframework.boot.ignore: true
+    extends:
+      file: ./postgresql.yml
+      service: postgresql
   pgadmin:
-    image: dpage/pgadmin4
-    container_name: pgadmin
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@example.com
-      PGADMIN_DEFAULT_PASSWORD: admin
-    ports:
-      - '8085:80'
-    networks:
-      - shared_network
+    extends:
+      file: ./pgadmin.yml
+      service: pgadmin
+  keycloak:
+    extends:
+      file: ./keycloak.yml
+      service: keycloak
+  consul:
+    extends:
+      file: ./consul.yml
+      service: consul
+  consul-config-loader:
+    extends:
+      file: ./consul.yml
+      service: consul-config-loader
+  redis:
+    extends:
+      file: ./redis.yml
+      service: redis
 
 networks:
   shared_network:
